@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Inicio</title>
+    <link rel = "icon" href="icono_icesi.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+	
+  </head>
+<body>
+	<div class="container">
+		<div class="row justify-content-md-center">
+			<h1 class="mt-5">Administración del juego - Scrum - Universidad
+				Icesi</h1>
+			<h2 class="mt-5">Por favor inicie sesión</h2>
+		</div>
+		
+		<div class="row justify-content-md-center">
+			<span th:if="${param.logout != null}"><a href="#"
+				class="text-success">¡Has salido correctamente!</a></span>
+		</div>
+
+		<div>
+			<p class="mt-2">
+			<form name="f" th:action="@{/login}" method="post">
+				<div class="row justify-content-md-center">
+					<div class="row">
+						<div class="col">
+							<label for="username">Usuario</label> <input type="text"
+								id="username" name="username" class="form-control"
+								placeholder="Usuario" required autofocus>
+						</div>
+
+						<div class="w-100">
+							<p class="mt-4"></p>
+						</div>
+
+						<div class="col">
+							<label for="password">Contraseña</label> <input type="password"
+								id="password" name="password" class="form-control"
+								placeholder="Contraseña" required>
+						</div>
+					</div>
+				</div>
+
+				<div class="row justify-content-md-center">
+					<p class="mt-5">
+						<input name="_csrf" type="hidden"
+							value="f3c5d0e1-a724-4bf6-8bd1-279226285420" /> <a><button
+								class="btn btn-lg btn-primary btn-block" type="submit">
+								<i class='fas fa-user-alt'></i> Iniciar sesión
+							</button></a>
+					</p>
+				</div>
+			</form>
+			</p>
+
+		</div>
+
+		<div class="row justify-content-md-center">
+			<span th:if="${param.error != null}"><a href="#"
+				class="text-danger">¡El usuario o la contraseña son incorrectos!</a></span>
+		</div>
+	</div>
+</body>
+</html>

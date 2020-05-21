@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" 
+			 xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+			 
+	<persistence-unit name="h2-data-taller3">
+		<class>com.example.demo.model.TsscAcceptanceCriteria</class>
+		<class>com.example.demo.model.TsscAdmin</class>
+		<class>com.example.demo.model.TsscDeliverable</class>
+		<class>com.example.demo.model.TsscGame</class>
+		<class>com.example.demo.model.TsscGameAdmin</class>
+		<class>com.example.demo.model.TsscGroup</class>
+		<class>com.example.demo.model.TsscSprint</class>
+		<class>com.example.demo.model.TsscState</class>
+		<class>com.example.demo.model.TsscStory</class>
+		<class>com.example.demo.model.TsscTimecontrol</class>
+		<class>com.example.demo.model.TsscTimeInterval</class>
+		<class>com.example.demo.model.TsscTopic</class>
+		
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:h2:~/test"/>
+			<property name="javax.persistence.jdbc.username" value="sa" />
+			<property name="javax.persistence.jdbc.password" value="" />
+			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create" /> 
+			<property name="hibernate.show_sql" value="true"/> 
+			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" /> 
+		
+		</properties>
+	</persistence-unit>
+</persistence>
