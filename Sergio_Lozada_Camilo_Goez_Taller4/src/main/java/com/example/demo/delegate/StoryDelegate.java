@@ -4,7 +4,7 @@ import com.example.demo.model.TsscStory;
 
 public interface StoryDelegate {
 
-	public TsscStory createStory(TsscStory Story);
+	public TsscStory createStory(TsscStory Story, long id);
 	public void updateStory(TsscStory Story);
 	public void deleteStory(long id);
 	public TsscStory getStory(long id);

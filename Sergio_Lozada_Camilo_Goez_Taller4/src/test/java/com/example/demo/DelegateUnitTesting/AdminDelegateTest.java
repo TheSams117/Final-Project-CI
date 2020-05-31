@@ -3,6 +3,8 @@ package com.example.demo.DelegateUnitTesting;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -47,6 +49,64 @@ class AdminDelegateTest {
 		when(restTemplate.postForObject("http://localhost:8080/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
 		
 		assertTrue(AdminDelegate.createAdmin(AdminTest)!=null);
+	}
+	
+	@Test
+	void testUpdateAdmin() {
+		assertNotNull(AdminDelegate);
+		setUpOne();
+		
+		when(restTemplate.postForObject("http://localhost:8080/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
+		
+		assertTrue(AdminDelegate.createAdmin(AdminTest)!=null);
+		
+		AdminTest.setPassword("123");
+		
+		AdminDelegate.updateAdmin(AdminTest);
+	}
+	
+	@Test
+	void testDeleteAdmin() {
+		assertNotNull(AdminDelegate);
+		setUpOne();
+		
+		when(restTemplate.postForObject("http://localhost:8080/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
+		
+		assertTrue(AdminDelegate.createAdmin(AdminTest)!=null);
+		
+		AdminDelegate.deleteAdmin(AdminTest.getId());
+	}
+	
+	@Test
+	void testGetAdmin() {
+		assertNotNull(AdminDelegate);
+		setUpOne();
+		
+		when(restTemplate.postForObject("http://localhost:8080/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
+		
+		assertTrue(AdminDelegate.createAdmin(AdminTest)!=null);
+		
+		when(restTemplate.getForObject("http://localhost:8080/Admins/"+AdminTest.getId(), TsscAdmin.class)).thenReturn(AdminTest);
+		
+		assertTrue(AdminDelegate.getAdmin(AdminTest.getId())!=null);
+	}
+	
+	@Test
+	void testFindAllAdmin() {
+		assertNotNull(AdminDelegate);
+		setUpOne();
+		
+		ArrayList<TsscAdmin> list  = new ArrayList<TsscAdmin>();
+		
+		list.add(AdminTest);
+		
+		when(restTemplate.postForObject("http://localhost:8080/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
+		
+		assertTrue(AdminDelegate.createAdmin(AdminTest)!=null);
+		
+		when(restTemplate.getForObject("http://localhost:8080/Admins", Iterable.class)).thenReturn(list);
+		
+		assertTrue(((ArrayList<TsscAdmin>)AdminDelegate.findAll()).get(0)!=null);
 	}
 
 }

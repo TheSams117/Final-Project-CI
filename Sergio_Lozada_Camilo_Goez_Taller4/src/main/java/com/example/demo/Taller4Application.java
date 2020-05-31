@@ -11,7 +11,7 @@ import com.example.demo.service.AdminService;
 
 
 @SpringBootApplication
-public class Taller3Application {
+public class Taller4Application {
 	
 	@Bean
 	public Java8TimeDialect java8TimeDialect() {
@@ -19,7 +19,7 @@ public class Taller3Application {
 	}
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext c = SpringApplication.run(Taller3Application.class, args);
+		ConfigurableApplicationContext c = SpringApplication.run(Taller4Application.class, args);
 		AdminService u = c.getBean(AdminService.class);
 		
 		TsscAdmin admin1 = new TsscAdmin();

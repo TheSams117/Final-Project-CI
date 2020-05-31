@@ -26,20 +26,19 @@ public class AdminDelegateImp implements AdminDelegate {
 
 	@Override
 	public void deleteAdmin(long id) {
-		// TODO Auto-generated method stub
+		restTemplate.delete("http://localhost:8080/Admins/"+id,id);
 		
 	}
 
 	@Override
 	public TsscAdmin getAdmin(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return restTemplate.getForObject("http://localhost:8080/Admins/"+id, TsscAdmin.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Iterable<TsscAdmin> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return restTemplate.getForObject("http://localhost:8080/Admins", Iterable.class);
 	}
 
 }
