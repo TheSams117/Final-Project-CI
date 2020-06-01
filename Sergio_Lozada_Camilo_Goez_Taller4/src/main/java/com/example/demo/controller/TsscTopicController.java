@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,34 +13,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.exception.TopicServiceException;
 import com.example.demo.model.TsscTopic;
-import com.example.demo.service.TopicService;
+import com.example.demo.delegate.TopicDelegate;
 
 @Controller
 public class TsscTopicController {
 	
-	private TopicService topicService;
+	private TopicDelegate topicDelegate;
 
 	@Autowired
-	public TsscTopicController(TopicService topicService) {
-		this.topicService = topicService;
+	public TsscTopicController(TopicDelegate topicDelegate) {
+		this.topicDelegate = topicDelegate;
 		TsscTopic newTopic = new TsscTopic();
 		newTopic.setDescription("Este es el tema nuevo");
 		newTopic.setGroupPrefix("T1");
 		newTopic.setDefaultGroups(1);
 		newTopic.setDefaultSprints(2);
 		newTopic.setName("Tema1");
-		try {
-			 
-			topicService.createTopic(newTopic);
-		} catch (TopicServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//topicDelegate.createTopic(newTopic);
+	
 	}
 	
 	@GetMapping("/topic/")
 	public String indexTopic(Model model) {
-		model.addAttribute("topics", topicService.findAll());
+		model.addAttribute("topics", topicDelegate.findAll());
 		return "topic/index";
 	}
 	
@@ -85,7 +78,7 @@ public class TsscTopicController {
 			
 		}
 		
-		topicService.createTopic(tsscTopic);
+		topicDelegate.createTopic(tsscTopic);
 			
 		return "redirect:/topic/";
 		
@@ -94,7 +87,7 @@ public class TsscTopicController {
 	
 	@GetMapping("/topic/edit/{id}")
 	public String editTopic(@PathVariable("id") long id, Model model) throws TopicServiceException {
-		TsscTopic tsscTopic = topicService.getTopic(id);
+		TsscTopic tsscTopic = topicDelegate.getTopic(id);
 		if (tsscTopic == null)
 			throw new IllegalArgumentException("Invalid topic Id:" + id);
 		
@@ -113,15 +106,15 @@ public class TsscTopicController {
 		}
 		
 		if (action != null && !action.equals("Cancelar")) {
-			topicService.createTopic(tsscTopic);
+			topicDelegate.updateTopic(tsscTopic);
 		}
 		return "redirect:/topic/";
 	}
 	
 	@GetMapping("/topic/del/{id}")
 	public String deleteTopic(@PathVariable("id") long id) throws IllegalArgumentException, TopicServiceException {
-		TsscTopic tsscTopic = topicService.getTopic(id).orElseThrow(() -> new IllegalArgumentException("Invalid topic Id:" + id));
-		topicService.deleteTopic(tsscTopic);
+		TsscTopic tsscTopic = topicDelegate.getTopic(id);
+		topicDelegate.deleteTopic(tsscTopic.getId());
 		return "redirect:/topic/";
 		
 	}

@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,16 +19,20 @@ import com.example.demo.exception.GameServiceException;
 import com.example.demo.exception.TopicServiceException;
 import com.example.demo.model.TsscGame;
 import com.example.demo.model.TsscTopic;
-import com.example.demo.service.GameService;
+import com.example.demo.delegate.GameDelegate;
+import com.example.demo.delegate.TopicDelegate;
 
 @Controller
 public class TsscGameController {
 	
-	private GameService gameService;
+	private GameDelegate gameDelegate;
+	
+	private TopicDelegate topicDelegate;
 	
 	@Autowired
-	public TsscGameController(GameService gameService) throws GameServiceException {
-		this.gameService = gameService;
+	public TsscGameController(GameDelegate gameDelegate,TopicDelegate topicDelegate) throws GameServiceException {
+		this.topicDelegate = topicDelegate;
+		this.gameDelegate = gameDelegate;
 		TsscGame n = new TsscGame();
 		n.setScheduledDate(LocalDate.of(2222, 3, 1));
 		n.setScheduledTime(LocalTime.MAX);
@@ -40,13 +43,13 @@ public class TsscGameController {
 		n.setUserPassword("123456789");
 		n.setName("Juego 1");
 		
-		gameService.createGame(n);
+		//gameDelegate.createGame(n);
 		
 	}
 	
 	@GetMapping("/game/")
 	public String indexGame(Model model) {
-		model.addAttribute("games", gameService.findAll());
+		model.addAttribute("games", gameDelegate.findAll());
 		return "game/index";
 	}
 	
@@ -69,8 +72,7 @@ public class TsscGameController {
 			
 			return "redirect:/game/";
 		}	
-		
-		model.addAttribute("topics", gameService.getTopics());
+		model.addAttribute("topics", topicDelegate.findAll());
 		return "game/add-game-2";
 		
 		
@@ -80,7 +82,7 @@ public class TsscGameController {
 	public String addGameStepTwo(@Validated(ValidationGroupStepTwo.class) @ModelAttribute TsscGame tsscGame,BindingResult bindingResult, @RequestParam(value = "action", required = true) String action, Model model) throws GameServiceException{
 		
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("topics", gameService.getTopics());
+			model.addAttribute("topics", topicDelegate.findAll());
 			return "game/add-game-2";
 		} 
 		
@@ -90,8 +92,8 @@ public class TsscGameController {
 			return "redirect:/game/";
 			
 		}
-	
-		gameService.createGame(tsscGame);
+		
+		gameDelegate.createGame(tsscGame);
 		
 			
 		return "redirect:/game/";
@@ -101,14 +103,15 @@ public class TsscGameController {
 	
 	@GetMapping("/game/edit/{id}")
 	public String editGame(@PathVariable("id") long id, Model model) throws GameServiceException {
-		Optional<TsscGame> tsscGame = gameService.getGame(id);
+		TsscGame tsscGame = gameDelegate.getGame(id);
 		
 		if (tsscGame == null)
 			
 			throw new IllegalArgumentException("Invalid game Id:" + id);
 		
-		model.addAttribute("tsscGame", tsscGame.get());
-		model.addAttribute("topics", gameService.getTopics());
+		model.addAttribute("tsscGame", tsscGame);
+		
+		model.addAttribute("topics", topicDelegate.findAll());
 		
 		return "game/edit-game";
 	}
@@ -119,34 +122,34 @@ public class TsscGameController {
 		
 		if (bindingResult.hasErrors()) {
 			
-			model.addAttribute("topics", gameService.getTopics());
+			model.addAttribute("topics", topicDelegate.findAll());
 			
 			return "game/edit-game";
 		}
 		
 		if (action != null && !action.equals("Cancelar")) {
-			gameService.createGame(tsscGame);
+			gameDelegate.updateGame(tsscGame);
 		}
 		return "redirect:/game/";
 	}
 	
 	@GetMapping("/game/story/{id}")
 	public String indexStory(@PathVariable("id") long id,Model model) throws GameServiceException {
-		Optional<TsscGame> tsscGame = gameService.getGame(id);
+		TsscGame tsscGame = gameDelegate.getGame(id);
 		if (tsscGame == null)
 			throw new IllegalArgumentException("Invalid game Id:" + id);
 		model.addAttribute("idGame",id);
-		model.addAttribute("tsscStories", tsscGame.get().getTsscStories());
+		model.addAttribute("tsscStories", tsscGame.getTsscStories());
 
 		return "/story/index";
 	}
 	
 	@GetMapping("/game/topic/{id}")
 	public String editTopicFromGame(@PathVariable("id") long id, Model model,RedirectAttributes redirectAttrs) throws GameServiceException {
-		Optional<TsscGame> tsscGame = gameService.getGame(id);
+		TsscGame tsscGame = gameDelegate.getGame(id);
 		if (tsscGame == null)
 			throw new IllegalArgumentException("Invalid game Id:" + id);
-		if(tsscGame.get().getTsscTopic() == null) {
+		if(tsscGame.getTsscTopic() == null) {
 			 redirectAttrs
 	            .addFlashAttribute("mensaje", "No es posible editar el tema del juego. Primero asocie un tema al juego desde la edición del mismo")
 	            
@@ -154,7 +157,7 @@ public class TsscGameController {
 			 
 			 return "redirect:/game/";
 		}
-		model.addAttribute("tsscTopic", tsscGame.get().getTsscTopic());
+		model.addAttribute("tsscTopic", tsscGame.getTsscTopic());
 		
 		return "game/edit-topic-from-game";
 	}
@@ -170,9 +173,9 @@ public class TsscGameController {
 		}
 		
 		if (action != null && !action.equals("Cancelar")) {
-			Optional<TsscGame> tsscGame = gameService.getGame(id);
-			tsscGame.get().setTsscTopic(tsscTopic);
-			gameService.updateGame(tsscTopic);
+			TsscGame tsscGame = gameDelegate.getGame(id);
+			tsscGame.setTsscTopic(tsscTopic);
+			gameDelegate.updateGame(tsscTopic);
 			
 
 		}
@@ -182,8 +185,8 @@ public class TsscGameController {
 		
 	@GetMapping("/game/del/{id}")
 	public String deleteGame(@PathVariable("id") long id) throws IllegalArgumentException, GameServiceException {
-		TsscGame tsscGame = gameService.getGame(id).orElseThrow(() -> new IllegalArgumentException("Invalid game Id:" + id));
-		gameService.deleteGame(tsscGame);
+		TsscGame tsscGame = gameDelegate.getGame(id);
+		gameDelegate.deleteGame(tsscGame.getId());
 		return "redirect:/game/";
 		
 	}

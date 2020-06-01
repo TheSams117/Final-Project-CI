@@ -18,32 +18,32 @@ public class TimecontrolRestControllerImp implements TimecontrolRestController {
 	@Autowired
 	private TimecontrolService TimecontrolService;
 	
-	@PostMapping("/Timecontrols")
+	@PostMapping("/api/Timecontrols")
 	@Override
 	public TsscTimecontrol createTimecontrol(@RequestBody TsscTimecontrol Timecontrol){
 		return TimecontrolService.createTimecontrol(Timecontrol);
 	}
 	
-	@PutMapping("/Timecontrols")
+	@PutMapping("/api/Timecontrols")
 	@Override
 	public TsscTimecontrol updateTimecontrol(@RequestBody TsscTimecontrol Timecontrol){
 		return TimecontrolService.updateTimecontrol(Timecontrol);
 	}
 	
-	@DeleteMapping("/Timecontrols/{id}")
+	@DeleteMapping("/api/Timecontrols/{id}")
 	@Override
 	public void deleteTimecontrol(@PathVariable("id") long id){
 		TsscTimecontrol Timecontrol = TimecontrolService.getTimecontrol(id);
 		TimecontrolService.deleteTimecontrol(Timecontrol);	
 	}
 	
-	@GetMapping("/Timecontrols/{id}")
+	@GetMapping("/api/Timecontrols/{id}")
 	@Override
 	public TsscTimecontrol getTimecontrol(@PathVariable("id") long id){
 		return TimecontrolService.getTimecontrol(id);
 	}
 	
-	@GetMapping("/Timecontrols")
+	@GetMapping("/api/Timecontrols")
 	@Override
 	public Iterable<TsscTimecontrol> findAll() {
 		return TimecontrolService.findAll();

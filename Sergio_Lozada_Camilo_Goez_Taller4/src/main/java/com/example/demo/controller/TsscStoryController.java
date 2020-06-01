@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,18 +15,18 @@ import com.example.demo.exception.GameServiceException;
 import com.example.demo.exception.StoryServiceException;
 import com.example.demo.exception.TopicServiceException;
 import com.example.demo.model.TsscStory;
-import com.example.demo.service.StoryService;
+import com.example.demo.delegate.StoryDelegate;
 
 @Controller
 public class TsscStoryController {
 	
-	private StoryService storyService;
+	private StoryDelegate storyDelegate;
 	
 	private long idGame;
 	
 	@Autowired
-	public TsscStoryController(StoryService storyService) {
-		this.storyService = storyService;
+	public TsscStoryController(StoryDelegate storyDelegate) {
+		this.storyDelegate = storyDelegate;
 	}
 	
 	@GetMapping("/story/")
@@ -79,7 +77,7 @@ public class TsscStoryController {
 			
 		}
 		
-		storyService.createStoryService(tsscStory,idGame);
+		storyDelegate.createStory(tsscStory,idGame);
 		
 			
 		return "redirect:/game/story/"+idGame;
@@ -89,11 +87,11 @@ public class TsscStoryController {
 	
 	@GetMapping("/story/edit/{id}")
 	public String editStory(@PathVariable("id") long id, Model model) throws TopicServiceException, StoryServiceException {
-		Optional<TsscStory> tsscStory = storyService.getStoryService(id);
+		TsscStory tsscStory = storyDelegate.getStory(id);
 		if (tsscStory == null)
 			throw new IllegalArgumentException("Invalid topic Id:" + id);
 		
-		model.addAttribute("tsscStory", tsscStory.get());
+		model.addAttribute("tsscStory", tsscStory);
 		
 		return "story/edit-story";
 	}
@@ -108,15 +106,15 @@ public class TsscStoryController {
 		}
 		
 		if (action != null && !action.equals("Cancelar")) {
-			storyService.createStoryService(tsscStory,idGame);
+			storyDelegate.createStory(tsscStory,idGame);
 		}
 		return "redirect:/game/story/"+idGame;
 	}
 	
 	@GetMapping("/story/del/{id}")
 	public String deleteStory(@PathVariable("id") long id) throws IllegalArgumentException, GameServiceException, StoryServiceException {
-		TsscStory tsscStory= storyService.getStoryService(id).orElseThrow(() -> new IllegalArgumentException("Invalid story Id:" + id));
-		storyService.deleteStoryService(tsscStory);
+		TsscStory tsscStory= storyDelegate.getStory(id);
+		storyDelegate.deleteStory(tsscStory.getId());
 		return "redirect:/game/story/"+idGame;
 		
 	}

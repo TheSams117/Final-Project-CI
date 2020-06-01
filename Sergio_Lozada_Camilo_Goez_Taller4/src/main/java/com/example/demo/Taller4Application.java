@@ -26,13 +26,13 @@ public class Taller4Application {
 		admin1.setPassword("{noop}123");
 		admin1.setSuperAdmin("sadmin");
 		admin1.setUser("sadmin");
-		u.save(admin1);
+		u.createAdmin(admin1);
 		
 		TsscAdmin admin2 = new TsscAdmin();
 		admin2.setPassword("{noop}123");
 		admin2.setSuperAdmin("admin");
 		admin2.setUser("admin");
-		u.save(admin2);
+		u.createAdmin(admin2);
 	}
 
 }

@@ -60,8 +60,7 @@
 								<option th:value="${null}" ></option>
 								
 								<option th:each="to : ${topics}" th:value="${to.id}"
-									class="form-control" th:text="${to.name}"
-									th:selected="${tsscGame.tsscTopic=to}"></option>
+									class="form-control" th:text="${to.name}"></option>
 								
 							</select> <span th:if="${#fields.hasErrors('tsscTopic')}" th:errors="*{tsscTopic}" class="text-danger"></span>
 						</div>

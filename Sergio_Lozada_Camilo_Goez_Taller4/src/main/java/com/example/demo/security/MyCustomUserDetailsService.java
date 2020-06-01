@@ -7,20 +7,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.TsscAdmin;
-import com.example.demo.repository.AdminRepository;
+import com.example.demo.dao.AdminDao;
 
 @Service
 public class MyCustomUserDetailsService implements UserDetailsService {
 	
 	@Autowired
-	private AdminRepository adminRepository;
+	private AdminDao adminDao;
 	
 	@Override
+	
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		TsscAdmin admin = adminRepository.findByUser(username);
+		TsscAdmin admin = adminDao.findByUser(username);
 
 		if (admin != null) {
 			User.UserBuilder builder = User.withUsername(username);

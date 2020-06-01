@@ -19,19 +19,19 @@ public class TopicRestControllerImp implements TopicRestController {
 	@Autowired
 	private TopicService TopicService;
 	
-	@PostMapping("/Topics")
+	@PostMapping("/api/Topics")
 	@Override
 	public TsscTopic createTopic(@RequestBody TsscTopic topic) throws TopicServiceException {
 		return TopicService.createTopic(topic);
 	}
 	
-	@PutMapping("/Topics")
+	@PutMapping("/api/Topics")
 	@Override
 	public TsscTopic updateTopic(@RequestBody TsscTopic topic) throws TopicServiceException {
 		return TopicService.updateTopic(topic);
 	}
 	
-	@DeleteMapping("/Topics/{id}")
+	@DeleteMapping("/api/Topics/{id}")
 	@Override
 	public void deleteTopic(@PathVariable("id") long id) throws TopicServiceException {
 		TsscTopic topic = TopicService.getTopic(id);
@@ -39,13 +39,13 @@ public class TopicRestControllerImp implements TopicRestController {
 		
 	}
 	
-	@GetMapping("/Topics/{id}")
+	@GetMapping("/api/Topics/{id}")
 	@Override
 	public TsscTopic getTopic(@PathVariable("id") long id) throws TopicServiceException {
 		return TopicService.getTopic(id);
 	}
 	
-	@GetMapping("/Topics")
+	@GetMapping("/api/Topics")
 	@Override
 	public Iterable<TsscTopic> findAll() {
 		return TopicService.findAll();

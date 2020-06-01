@@ -17,19 +17,19 @@ public class AdminRestControllerImp implements AdminRestController {
 	@Autowired
 	private AdminService AdminService;
 	
-	@PostMapping("/Admins")
+	@PostMapping("/api/Admins")
 	@Override
 	public TsscAdmin createAdmin(@RequestBody TsscAdmin Admin){
 		return AdminService.createAdmin(Admin);
 	}
 	
-	@PutMapping("/Admins")
+	@PutMapping("/api/Admins")
 	@Override
 	public TsscAdmin updateAdmin(@RequestBody TsscAdmin Admin){
 		return AdminService.updateAdmin(Admin);
 	}
 	
-	@DeleteMapping("/Admins/{id}")
+	@DeleteMapping("/api/Admins/{id}")
 	@Override
 	public void deleteAdmin(@PathVariable("id") long id){
 		TsscAdmin Admin = AdminService.getAdmin(id);
@@ -37,13 +37,13 @@ public class AdminRestControllerImp implements AdminRestController {
 		
 	}
 	
-	@GetMapping("/Admins/{id}")
+	@GetMapping("/api/Admins/{id}")
 	@Override
 	public TsscAdmin getAdmin(@PathVariable("id") long id){
 		return AdminService.getAdmin(id);
 	}
 	
-	@GetMapping("/Admins")
+	@GetMapping("/api/Admins")
 	@Override
 	public Iterable<TsscAdmin> findAll() {
 		return AdminService.findAll();

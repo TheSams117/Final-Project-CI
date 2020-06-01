@@ -16,29 +16,29 @@ public class AdminDelegateImp implements AdminDelegate {
 	
 	@Override
 	public TsscAdmin createAdmin(TsscAdmin Admin) {
-		return restTemplate.postForObject("http://localhost:8080/Admins", Admin, TsscAdmin.class);
+		return restTemplate.postForObject("http://localhost:8080/api/Admins", Admin, TsscAdmin.class);
 	}
 
 	@Override
 	public void updateAdmin(TsscAdmin Admin) {
-		restTemplate.put("http://localhost:8080/Admins", Admin);
+		restTemplate.put("http://localhost:8080/api/Admins", Admin);
 	}
 
 	@Override
 	public void deleteAdmin(long id) {
-		restTemplate.delete("http://localhost:8080/Admins/"+id,id);
+		restTemplate.delete("http://localhost:8080/api/Admins/"+id,id);
 		
 	}
 
 	@Override
 	public TsscAdmin getAdmin(long id) {
-		return restTemplate.getForObject("http://localhost:8080/Admins/"+id, TsscAdmin.class);
+		return restTemplate.getForObject("http://localhost:8080/api/Admins/"+id, TsscAdmin.class);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Iterable<TsscAdmin> findAll() {
-		return restTemplate.getForObject("http://localhost:8080/Admins", Iterable.class);
+		return restTemplate.getForObject("http://localhost:8080/api/Admins", Iterable.class);
 	}
 
 }

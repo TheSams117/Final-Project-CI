@@ -19,19 +19,19 @@ public class StoryRestControllerImp implements StoryRestController {
 	@Autowired
 	private StoryService StoryService;
 	
-	@PostMapping("/Storys/{id}")
+	@PostMapping("/api/Storys/{id}")
 	@Override
 	public TsscStory createStory(@RequestBody TsscStory Story,@PathVariable("id") long id) throws StoryServiceException {
 		return StoryService.createStoryService(Story, id);
 	}
 	
-	@PutMapping("/Storys")
+	@PutMapping("/api/Storys")
 	@Override
 	public TsscStory updateStory(@RequestBody TsscStory Story) throws StoryServiceException {
 		return StoryService.updateStoryService(Story);
 	}
 	
-	@DeleteMapping("/Storys/{id}")
+	@DeleteMapping("/api/Storys/{id}")
 	@Override
 	public void deleteStory(@PathVariable("id") long id) throws StoryServiceException {
 		TsscStory Story = StoryService.getStoryService(id);
@@ -39,13 +39,13 @@ public class StoryRestControllerImp implements StoryRestController {
 		
 	}
 	
-	@GetMapping("/Storys/{id}")
+	@GetMapping("/api/Storys/{id}")
 	@Override
 	public TsscStory getStory(@PathVariable("id") long id) throws StoryServiceException {
 		return StoryService.getStoryService(id);
 	}
 	
-	@GetMapping("/Storys")
+	@GetMapping("/api/Storys")
 	@Override
 	public Iterable<TsscStory> findAll() {
 		return StoryService.findAll();

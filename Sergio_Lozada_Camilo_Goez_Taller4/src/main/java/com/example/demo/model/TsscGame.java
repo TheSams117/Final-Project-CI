@@ -51,12 +51,12 @@ public class TsscGame implements Serializable {
 	@NotNull(groups = ValidationGroupStepTwo.class)
 	@Min(value = 1,groups = ValidationGroupStepTwo.class)
 	@Column(name = "N_GROUPS")
-	private Integer nGroups = 4;
+	private int nGroups = 4;
 	
 	@NotNull(groups = ValidationGroupStepTwo.class)
 	@Min(value = 1,groups = ValidationGroupStepTwo.class)
 	@Column(name = "N_SPRINTS")
-	private Integer nSprints = 4;
+	private int nSprints = 4;
 	
 	@Size(min = 3, groups = ValidationGroupStepOne.class)
 	@NotBlank(groups = ValidationGroupStepOne.class)

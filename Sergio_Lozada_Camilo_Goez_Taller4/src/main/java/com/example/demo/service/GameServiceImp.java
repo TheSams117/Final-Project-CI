@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.exception.GameServiceException;
 import com.example.demo.model.TsscGame;
@@ -20,7 +22,8 @@ public class GameServiceImp implements GameService {
 	private GameDao GameDao;
 	@Autowired
 	private TopicDao TopicDao;
-
+	
+	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public boolean createGame(Object game) throws GameServiceException {
 		if (game == null) {
 			throw new GameServiceException("CreateGame: The new game or topic can be null");
@@ -30,7 +33,6 @@ public class GameServiceImp implements GameService {
 			}else if(((TsscGame) game).getNSprints() <= 0) {
 				throw new GameServiceException("CreateGame: Number of sptrints equal or less to 0");
 			}
-			
 			GameDao.save((TsscGame) game);
 			
 			return true ;
@@ -61,7 +63,8 @@ public class GameServiceImp implements GameService {
 		
 		return false;
 	}
-
+	
+	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public boolean updateGame(Object game) throws GameServiceException {
 		if (game == null) {
 			throw new GameServiceException("UpdateGame: The new game or topic can be null");
@@ -96,7 +99,8 @@ public class GameServiceImp implements GameService {
 		
 		return false;
 	}
-
+	
+	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void deleteGame(TsscGame game) throws GameServiceException {
 		List<TsscStory> stories = game.getTsscStories();
 		for (int i = 0; i < stories.size(); i++) {
@@ -105,31 +109,36 @@ public class GameServiceImp implements GameService {
 		}
 		GameDao.delete(game);
 	}
-
+	
+	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public TsscGame getGame(long id) throws GameServiceException {
 		return GameDao.findById(id);
 	}
 	
+	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public TopicDao getTopicDao() {
 		return TopicDao;
 	}
 
+	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void setTopicDao(TopicDao TopicDao) {
 		this.TopicDao = TopicDao;
 	}
 
 	@Override
+	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Iterable<TsscGame> findAll() {
-		
 		return GameDao.findAll();
 	}
 
 	@Override
+	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Iterable<TsscTopic>  getTopics() {		
 		return TopicDao.findAll();
 	}
 
 	@Override
+	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void editTopic(TsscTopic topic) {
 		TopicDao.save(topic);
 		

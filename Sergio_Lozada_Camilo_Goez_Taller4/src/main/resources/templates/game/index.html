@@ -47,8 +47,8 @@
 								<td class="text-info" th:text="${game.name}"></td>
 								<td class="text-info" th:text="${game.scheduledDate}"></td>
 								<td class="text-info" th:text="${game.scheduledTime}"></td>
-								<td class="text-info" th:text="${game.nGroups}"></td>
-								<td class="text-info" th:text="${game.nSprints}"></td>
+								<td class="text-info" th:text="${game[nGroups]}"></td>
+								<td class="text-info" th:text="${game[nSprints]}"></td>
 								<td class="text-info" th:text="${game.startTime}"></td>
 
 								<td><a th:href="@{/game/edit/{id}(id=${game.id})}"

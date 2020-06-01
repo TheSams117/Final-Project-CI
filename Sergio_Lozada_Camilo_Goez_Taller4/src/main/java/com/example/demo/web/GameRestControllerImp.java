@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exception.GameServiceException;
 import com.example.demo.model.TsscGame;
+import com.example.demo.model.TsscTopic;
 import com.example.demo.service.GameService;
 
 @RestController
@@ -18,19 +19,28 @@ public class GameRestControllerImp implements GameRestController {
 	@Autowired
 	private GameService GameService;
 	
-	@PostMapping("/Games")
+	@PostMapping("/api/Games")
 	@Override
-	public boolean createGame(@RequestBody Object Game) throws GameServiceException {
+	public Boolean createGame(@RequestBody TsscGame Game) throws GameServiceException {
+		
 		return GameService.createGame(Game);
 	}
 	
-	@PutMapping("/Games")
+	@PutMapping("/api/Games")
 	@Override
-	public boolean updateGame(@RequestBody Object Game) throws GameServiceException {
+	public boolean updateGame(@RequestBody TsscGame Game) throws GameServiceException {
+		
 		return GameService.updateGame(Game);
 	}
 	
-	@DeleteMapping("/Games/{id}")
+	@PutMapping("/api/Topic")
+	@Override
+	public boolean updateTopic(@RequestBody TsscTopic topic) throws GameServiceException {
+		
+		return GameService.updateGame(topic);
+	}
+	
+	@DeleteMapping("/api/Games/{id}")
 	@Override
 	public void deleteGame(@PathVariable("id") long id) throws GameServiceException {
 		TsscGame Game = GameService.getGame(id);
@@ -38,13 +48,13 @@ public class GameRestControllerImp implements GameRestController {
 		
 	}
 	
-	@GetMapping("/Games/{id}")
+	@GetMapping("/api/Games/{id}")
 	@Override
 	public TsscGame getGame(@PathVariable("id") long id) throws GameServiceException {
 		return GameService.getGame(id);
 	}
 	
-	@GetMapping("/Games")
+	@GetMapping("/api/Games")
 	@Override
 	public Iterable<TsscGame> findAll() {
 		return GameService.findAll();

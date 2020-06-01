@@ -10,5 +10,6 @@ public interface AdminDao {
 	public TsscAdmin delete(TsscAdmin entity);
 	public TsscAdmin findById(long codigo);
 	public List<TsscAdmin> findAll();
+	public TsscAdmin findByUser(String user);
 
 }
