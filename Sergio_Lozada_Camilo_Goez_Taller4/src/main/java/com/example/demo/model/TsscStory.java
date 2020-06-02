@@ -6,8 +6,11 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.example.demo.controller.ValidationGame;
 import com.example.demo.controller.ValidationGroupStepOne;
 import com.example.demo.controller.ValidationGroupStepTwo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.List;
 @Entity
 @Table(name = "TSSC_STORY")
 @NamedQuery(name = "TsscStory.findAll", query = "SELECT t FROM TsscStory t")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class TsscStory implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -70,6 +74,8 @@ public class TsscStory implements Serializable {
 	// bi-directional many-to-one association to TsscGame
 	@ManyToOne
 	@JoinColumn(name = "TSSC_GAME_ID")
+	@JsonIgnore
+	@NotNull(groups = ValidationGame.class)
 	private TsscGame tsscGame;
 	
 	//bi-directional many-to-one association to TsscTopic

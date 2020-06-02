@@ -23,13 +23,6 @@ public class TsscTopicController {
 	@Autowired
 	public TsscTopicController(TopicDelegate topicDelegate) {
 		this.topicDelegate = topicDelegate;
-		TsscTopic newTopic = new TsscTopic();
-		newTopic.setDescription("Este es el tema nuevo");
-		newTopic.setGroupPrefix("T1");
-		newTopic.setDefaultGroups(1);
-		newTopic.setDefaultSprints(2);
-		newTopic.setName("Tema1");
-		//topicDelegate.createTopic(newTopic);
 	
 	}
 	
@@ -49,15 +42,17 @@ public class TsscTopicController {
 	@PostMapping("/topic/add1")
 	public String addTopicStepOne(@Validated(ValidationGroupStepOne.class) @ModelAttribute TsscTopic tsscTopic,BindingResult bindingResult, @RequestParam(value = "action", required = true) String action, Model model) {
 		
+		if (action.equals("Cancelar")) {
+			
+			return "redirect:/topic/";
+		}
+		
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("tsscTopic", new TsscTopic());
 			return "topic/add-topic-1";
 		} 
 	
-		if (action.equals("Cancelar")) {
-			
-			return "redirect:/topic/";
-		}
+		
 		
 		return "topic/add-topic-2";
 		
@@ -67,16 +62,18 @@ public class TsscTopicController {
 	@PostMapping("/topic/add2")
 	public String addTopicStepTwo(@Validated(ValidationGroupStepTwo.class) @ModelAttribute TsscTopic tsscTopic,BindingResult bindingResult, @RequestParam(value = "action", required = true) String action, Model model) throws TopicServiceException {
 		
-		if (bindingResult.hasErrors()) {
-			
-			return "topic/add-topic-2";
-		} 
-	
+		
 		if (action.equals("Cancelar")) {
 			
 			return "redirect:/topic/";
 			
 		}
+		
+		if (bindingResult.hasErrors()) {
+			
+			return "topic/add-topic-2";
+		} 
+	
 		
 		topicDelegate.createTopic(tsscTopic);
 			
@@ -99,6 +96,11 @@ public class TsscTopicController {
 	@PostMapping("/topic/edit/{id}")
 	public String updateTopic(@PathVariable("id") long id,
 			@RequestParam(value = "action", required = true) String action, @Validated({ValidationGroupStepOne.class,ValidationGroupStepTwo.class} ) @ModelAttribute TsscTopic tsscTopic,BindingResult bindingResult, Model model) throws TopicServiceException {
+		
+		if (action.equals("Cancelar")) {
+			
+			return "redirect:/topic/";
+		}
 		
 		if (bindingResult.hasErrors()) {
 

@@ -1,5 +1,6 @@
 package com.example.demo.delegate;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -7,6 +8,7 @@ import com.example.demo.model.TsscGame;
 import com.example.demo.model.TsscTopic;
 
 @Component
+@Scope("singleton")
 public class GameDelegateImp implements GameDelegate{
 
 	private  RestTemplate restTemplate;

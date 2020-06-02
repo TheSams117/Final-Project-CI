@@ -16,6 +16,8 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import com.example.demo.controller.ValidationGroupStepOne;
 import com.example.demo.controller.ValidationGroupStepTwo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -28,6 +30,7 @@ import java.util.List;
 @Entity
 @Table(name = "TSSC_GAME")
 @NamedQuery(name = "TsscGame.findAll", query = "SELECT t FROM TsscGame t")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class TsscGame implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -51,12 +54,12 @@ public class TsscGame implements Serializable {
 	@NotNull(groups = ValidationGroupStepTwo.class)
 	@Min(value = 1,groups = ValidationGroupStepTwo.class)
 	@Column(name = "N_GROUPS")
-	private int nGroups = 4;
+	private Integer nGroups = 4;
 	
 	@NotNull(groups = ValidationGroupStepTwo.class)
 	@Min(value = 1,groups = ValidationGroupStepTwo.class)
 	@Column(name = "N_SPRINTS")
-	private int nSprints = 4;
+	private Integer nSprints = 4;
 	
 	@Size(min = 3, groups = ValidationGroupStepOne.class)
 	@NotBlank(groups = ValidationGroupStepOne.class)
@@ -116,7 +119,6 @@ public class TsscGame implements Serializable {
 
 	// bi-directional many-to-one association to TsscStory
 	@OneToMany(mappedBy = "tsscGame")
-	@JsonIgnore
 	private List<TsscStory> tsscStories;
 	
 	//bi-directional many-to-one association to TsscTimecontrol

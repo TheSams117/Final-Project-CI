@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.TsscGame;
@@ -17,6 +18,7 @@ import com.example.demo.model.TsscTopic;
 
 @Repository
 @Transactional
+@Scope("singleton")
 public class GameDaoImp implements GameDao {
 	
 	@PersistenceContext

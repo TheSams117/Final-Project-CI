@@ -40,6 +40,7 @@ class StrotyServiceTest {
 		this.storyService = storyService;
 		this.StoryDao = StoryDao;
 		this.GameDao = GameDao;
+		
 	}
 
 	@BeforeAll
@@ -67,7 +68,7 @@ class StrotyServiceTest {
 		void testCreateStory1() throws StoryServiceException {
 			newStory = new TsscStory();
 			
-			Throwable exceptionOne = assertThrows(StoryServiceException.class, ()->{storyService.createStoryService(newStory,1);});
+			Throwable exceptionOne = assertThrows(StoryServiceException.class, ()->{storyService.createStoryService(newStory,0);});
 			
 			assertEquals("CreateStory: The new story need have a game", exceptionOne.getMessage());
 		}

@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.exception.GameServiceException;
 import com.example.demo.exception.TopicServiceException;
 import com.example.demo.model.TsscGame;
+import com.example.demo.model.TsscStory;
 import com.example.demo.model.TsscTopic;
 import com.example.demo.delegate.GameDelegate;
 import com.example.demo.delegate.TopicDelegate;
@@ -33,28 +35,22 @@ public class TsscGameController {
 	public TsscGameController(GameDelegate gameDelegate,TopicDelegate topicDelegate) throws GameServiceException {
 		this.topicDelegate = topicDelegate;
 		this.gameDelegate = gameDelegate;
-		TsscGame n = new TsscGame();
-		n.setScheduledDate(LocalDate.of(2222, 3, 1));
-		n.setScheduledTime(LocalTime.MAX);
-		n.setStartTime(LocalTime.MAX);
-		n.setPauseSeconds((long)3);
-		n.setAdminPassword("123456789");
-		n.setGuestPassword("123456789");
-		n.setUserPassword("123456789");
-		n.setName("Juego 1");
 		
-		//gameDelegate.createGame(n);
 		
 	}
 	
 	@GetMapping("/game/")
 	public String indexGame(Model model) {
-		model.addAttribute("games", gameDelegate.findAll());
+		ArrayList<TsscGame> a = (ArrayList<TsscGame>) gameDelegate.findAll();
+		model.addAttribute("games", a);
 		return "game/index";
 	}
 	
 	@GetMapping("/game/add")
 	public String addGame(Model model) {
+		
+		TsscGame game = new TsscGame();
+		game.setTsscStories(new ArrayList<>());
 		model.addAttribute("tsscGame", new TsscGame());
 		
 		return "game/add-game-1";
@@ -63,15 +59,17 @@ public class TsscGameController {
 	@PostMapping("/game/add1")
 	public String addGameStepOne(@Validated(ValidationGroupStepOne.class) @ModelAttribute TsscGame tsscGame,BindingResult bindingResult, @RequestParam(value = "action", required = true) String action, Model model) throws GameServiceException {
 		
+		if (action.equals("Cancelar")) {
+			
+			return "redirect:/game/";
+		}
+		
 		if (bindingResult.hasErrors()) {
 			
 			return "game/add-game-1";
 		} 
 	
-		if (action.equals("Cancelar")) {
 			
-			return "redirect:/game/";
-		}	
 		model.addAttribute("topics", topicDelegate.findAll());
 		return "game/add-game-2";
 		
@@ -81,17 +79,21 @@ public class TsscGameController {
 	@PostMapping("/game/add2")
 	public String addGameStepTwo(@Validated(ValidationGroupStepTwo.class) @ModelAttribute TsscGame tsscGame,BindingResult bindingResult, @RequestParam(value = "action", required = true) String action, Model model) throws GameServiceException{
 		
+		
+		
+		if (action.equals("Cancelar")) {
+			
+			return "redirect:/game/";
+			
+		}
+		
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("topics", topicDelegate.findAll());
 			return "game/add-game-2";
 		} 
 		
 	
-		if (action.equals("Cancelar")) {
-			
-			return "redirect:/game/";
-			
-		}
+		
 		
 		gameDelegate.createGame(tsscGame);
 		
@@ -120,6 +122,13 @@ public class TsscGameController {
 	public String updateGame(@PathVariable("id") long id,
 			@RequestParam(value = "action", required = true) String action, @Validated({ValidationGroupStepOne.class,ValidationGroupStepTwo.class} ) @ModelAttribute TsscGame tsscGame,BindingResult bindingResult, Model model) throws TopicServiceException, GameServiceException {
 		
+		
+		if (action.equals("Cancelar")) {
+			
+			
+			return "redirect:/game/";
+		}
+		
 		if (bindingResult.hasErrors()) {
 			
 			model.addAttribute("topics", topicDelegate.findAll());
@@ -138,10 +147,8 @@ public class TsscGameController {
 		TsscGame tsscGame = gameDelegate.getGame(id);
 		if (tsscGame == null)
 			throw new IllegalArgumentException("Invalid game Id:" + id);
-		model.addAttribute("idGame",id);
-		model.addAttribute("tsscStories", tsscGame.getTsscStories());
-
-		return "/story/index";
+   
+		return "redirect:/story/"+id;
 	}
 	
 	@GetMapping("/game/topic/{id}")
@@ -165,6 +172,12 @@ public class TsscGameController {
 	@PostMapping("/game/topic/{id}")
 	public String updateTopicFromGame(@PathVariable("id") long id,
 			@RequestParam(value = "action", required = true) String action, @Validated({ValidationGroupStepOne.class,ValidationGroupStepTwo.class} ) @ModelAttribute TsscTopic tsscTopic,BindingResult bindingResult, Model model) throws TopicServiceException, GameServiceException {
+		
+		if (action.equals("Cancelar")) {
+			
+			
+			return "redirect:/game/";
+		}
 		
 		if (bindingResult.hasErrors()) {
 			
