@@ -2,6 +2,13 @@ package com.example.demo.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import com.example.demo.controller.ValidationGroupStepOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.List;
@@ -28,18 +35,23 @@ public class TsscTimecontrol implements Serializable {
 
 	@Column(name = "LAST_PLAY_TIME")
 	private LocalTime lastPlayTime;
-
+	
+	@NotBlank(groups = ValidationGroupStepOne.class)
 	private String name;
-
+	
+	@NotNull(groups = ValidationGroupStepOne.class)
+	@Min(value = 1,groups = ValidationGroupStepOne.class)
 	@Column(name = "TC_ORDER")
 	private BigDecimal order;
-
+	
+	@NotBlank(groups = ValidationGroupStepOne.class)
 	@Column(name = "TC_STATE")
 	private String state;
 
 	@Column(name = "TIME_INTERVAL")
 	private BigDecimal timeInterval;
-
+	
+	@NotBlank(groups = ValidationGroupStepOne.class)
 	@Column(name = "TC_TYPE")
 	private String type;
 
@@ -50,6 +62,7 @@ public class TsscTimecontrol implements Serializable {
 	// bi-directional many-to-one association to TsscGame
 	@ManyToOne
 	@JoinColumn(name = "TSSC_GAME_ID")
+	@JsonIgnore
 	private TsscGame tsscGame;
 
 	// bi-directional many-to-one association to TsscTopic

@@ -4,7 +4,7 @@ import com.example.demo.model.TsscTimecontrol;
 
 public interface TimecontrolDelegate {
 
-	public TsscTimecontrol createTimecontrol(TsscTimecontrol Timecontrol);
+	public TsscTimecontrol createTimecontrol(TsscTimecontrol Timecontrol, long id);
 	public void updateTimecontrol(TsscTimecontrol Timecontrol);
 	public void deleteTimecontrol(long id);
 	public TsscTimecontrol getTimecontrol(long id);

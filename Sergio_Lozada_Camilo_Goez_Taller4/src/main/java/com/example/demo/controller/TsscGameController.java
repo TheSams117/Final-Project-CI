@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.exception.GameServiceException;
 import com.example.demo.exception.TopicServiceException;
 import com.example.demo.model.TsscGame;
-import com.example.demo.model.TsscStory;
 import com.example.demo.model.TsscTopic;
 import com.example.demo.delegate.GameDelegate;
 import com.example.demo.delegate.TopicDelegate;
@@ -51,6 +48,7 @@ public class TsscGameController {
 		
 		TsscGame game = new TsscGame();
 		game.setTsscStories(new ArrayList<>());
+		game.setTsscTimecontrol(new  ArrayList<>());
 		model.addAttribute("tsscGame", new TsscGame());
 		
 		return "game/add-game-1";
@@ -149,6 +147,15 @@ public class TsscGameController {
 			throw new IllegalArgumentException("Invalid game Id:" + id);
    
 		return "redirect:/story/"+id;
+	}
+	
+	@GetMapping("/game/timecontrol/{id}")
+	public String indexTimecontrol(@PathVariable("id") long id,Model model) throws GameServiceException {
+		TsscGame tsscGame = gameDelegate.getGame(id);
+		if (tsscGame == null)
+			throw new IllegalArgumentException("Invalid game Id:" + id);
+		
+		return "redirect:/timecontrol/"+id;
 	}
 	
 	@GetMapping("/game/topic/{id}")

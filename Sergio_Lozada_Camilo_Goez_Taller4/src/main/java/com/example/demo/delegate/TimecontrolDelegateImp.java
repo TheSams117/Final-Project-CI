@@ -15,8 +15,8 @@ public class TimecontrolDelegateImp implements TimecontrolDelegate{
 	}
 	
 	@Override
-	public TsscTimecontrol createTimecontrol(TsscTimecontrol Timecontrol) {
-		return restTemplate.postForObject("http://localhost:8080/api/Timecontrols", Timecontrol, TsscTimecontrol.class);
+	public TsscTimecontrol createTimecontrol(TsscTimecontrol Timecontrol,long id) {
+		return restTemplate.postForObject("http://localhost:8080/api/Timecontrols/"+id, Timecontrol, TsscTimecontrol.class);
 	}
 
 	@Override

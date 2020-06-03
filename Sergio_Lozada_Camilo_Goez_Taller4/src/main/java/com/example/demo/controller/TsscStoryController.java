@@ -1,8 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +15,6 @@ import com.example.demo.controller.ValidationGame;
 import com.example.demo.exception.GameServiceException;
 import com.example.demo.exception.StoryServiceException;
 import com.example.demo.exception.TopicServiceException;
-import com.example.demo.model.TsscGame;
 import com.example.demo.model.TsscStory;
 import com.example.demo.delegate.GameDelegate;
 import com.example.demo.delegate.StoryDelegate;

@@ -18,10 +18,14 @@ public class TimecontrolRestControllerImp implements TimecontrolRestController {
 	@Autowired
 	private TimecontrolService TimecontrolService;
 	
-	@PostMapping("/api/Timecontrols")
+	
+	
+	@PostMapping("/api/Timecontrols/{id}")
 	@Override
-	public TsscTimecontrol createTimecontrol(@RequestBody TsscTimecontrol Timecontrol){
-		return TimecontrolService.createTimecontrol(Timecontrol);
+	public TsscTimecontrol createTimecontrol(@PathVariable("id") long id,@RequestBody TsscTimecontrol Timecontrol){
+		
+		
+		return TimecontrolService.createTimecontrol(Timecontrol,id);
 	}
 	
 	@PutMapping("/api/Timecontrols")
