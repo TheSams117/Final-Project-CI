@@ -194,8 +194,8 @@ public class TsscGameController {
 		}
 		
 		if (action != null && !action.equals("Cancelar")) {
-			TsscGame tsscGame = gameDelegate.getGame(id);
-			tsscGame.setTsscTopic(tsscTopic);
+			//TsscGame tsscGame = gameDelegate.getGame(id);
+			//tsscGame.setTsscTopic(tsscTopic);
 			gameDelegate.updateGame(tsscTopic);
 			
 

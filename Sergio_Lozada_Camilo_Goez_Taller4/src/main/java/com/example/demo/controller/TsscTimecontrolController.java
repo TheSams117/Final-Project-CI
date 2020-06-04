@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.delegate.GameDelegate;
 import com.example.demo.delegate.TimecontrolDelegate;
-import com.example.demo.model.TsscStory;
 import com.example.demo.model.TsscTimecontrol;
 
 @Controller

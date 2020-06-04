@@ -110,7 +110,6 @@ public class GameDaoImp implements GameDao {
 		return query.getResultList();
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<TsscGame> Query2B(LocalDate date) {
 

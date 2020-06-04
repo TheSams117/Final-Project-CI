@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.exception.GameServiceException;
 import com.example.demo.model.TsscGame;
@@ -15,6 +13,7 @@ import com.example.demo.model.TsscStory;
 import com.example.demo.model.TsscTimecontrol;
 import com.example.demo.model.TsscTopic;
 import com.example.demo.dao.GameDao;
+import com.example.demo.dao.StoryDao;
 import com.example.demo.dao.TopicDao;
 
 @Service
@@ -23,6 +22,8 @@ public class GameServiceImp implements GameService {
 	private GameDao GameDao;
 	@Autowired
 	private TopicDao TopicDao;
+	@Autowired
+	private StoryDao StoryDao;
 	
 	public boolean createGame(Object game) throws GameServiceException {
 		if (game == null) {
@@ -107,6 +108,8 @@ public class GameServiceImp implements GameService {
 			if(stories.size()!=0) {
 				
 				stories.get(i).setTsscGame(null);
+				StoryDao.delete(stories.get(i));
+				
 			}
 	
 		}
