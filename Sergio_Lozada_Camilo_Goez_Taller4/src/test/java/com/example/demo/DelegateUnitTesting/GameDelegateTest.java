@@ -46,7 +46,7 @@ class GameDelegateTest {
 		assertNotNull(GameDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Games", GameTest, TsscGame.class)).thenReturn(GameTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Games", GameTest, TsscGame.class)).thenReturn(GameTest);
 		
 		assertTrue(GameDelegate.createGame(GameTest)!=null);
 	}
@@ -56,7 +56,7 @@ class GameDelegateTest {
 		assertNotNull(GameDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Games", GameTest, TsscGame.class)).thenReturn(GameTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Games", GameTest, TsscGame.class)).thenReturn(GameTest);
 		
 		assertTrue(GameDelegate.createGame(GameTest)!=null);
 		
@@ -70,7 +70,7 @@ class GameDelegateTest {
 		assertNotNull(GameDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Games", GameTest, TsscGame.class)).thenReturn(GameTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Games", GameTest, TsscGame.class)).thenReturn(GameTest);
 		
 		assertTrue(GameDelegate.createGame(GameTest)!=null);
 		
@@ -82,11 +82,11 @@ class GameDelegateTest {
 		assertNotNull(GameDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Games", GameTest, TsscGame.class)).thenReturn(GameTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Games", GameTest, TsscGame.class)).thenReturn(GameTest);
 		
 		assertTrue(GameDelegate.createGame(GameTest)!=null);
 		
-		when(restTemplate.getForObject("http://localhost:8080/Games/"+GameTest.getId(), TsscGame.class)).thenReturn(GameTest);
+		when(restTemplate.getForObject("http://localhost:8080/api/Games/"+GameTest.getId(), TsscGame.class)).thenReturn(GameTest);
 		
 		assertTrue(GameDelegate.getGame(GameTest.getId())!=null);
 	}
@@ -100,11 +100,11 @@ class GameDelegateTest {
 		
 		list.add(GameTest);
 		
-		when(restTemplate.postForObject("http://localhost:8080/Games", GameTest, TsscGame.class)).thenReturn(GameTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Games", GameTest, TsscGame.class)).thenReturn(GameTest);
 		
 		assertTrue(GameDelegate.createGame(GameTest)!=null);
 		
-		when(restTemplate.getForObject("http://localhost:8080/Games", Iterable.class)).thenReturn(list);
+		when(restTemplate.getForObject("http://localhost:8080/api/Games", Iterable.class)).thenReturn(list);
 		
 		assertTrue(((ArrayList<TsscGame>)GameDelegate.findAll()).get(0)!=null);
 	}

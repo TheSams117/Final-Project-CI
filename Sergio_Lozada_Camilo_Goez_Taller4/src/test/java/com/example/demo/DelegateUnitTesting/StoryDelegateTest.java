@@ -46,7 +46,7 @@ class StoryDelegateTest {
 		assertNotNull(StoryDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Storys/0", StoryTest, TsscStory.class)).thenReturn(StoryTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Storys/0", StoryTest, TsscStory.class)).thenReturn(StoryTest);
 		
 		assertTrue(StoryDelegate.createStory(StoryTest,0)!=null);
 	}
@@ -56,7 +56,7 @@ class StoryDelegateTest {
 		assertNotNull(StoryDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Storys/0", StoryTest, TsscStory.class)).thenReturn(StoryTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Storys/0", StoryTest, TsscStory.class)).thenReturn(StoryTest);
 		
 		assertTrue(StoryDelegate.createStory(StoryTest,0)!=null);
 		
@@ -70,7 +70,7 @@ class StoryDelegateTest {
 		assertNotNull(StoryDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Storys/0", StoryTest, TsscStory.class)).thenReturn(StoryTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Storys/0", StoryTest, TsscStory.class)).thenReturn(StoryTest);
 		
 		assertTrue(StoryDelegate.createStory(StoryTest,0)!=null);
 		
@@ -82,11 +82,11 @@ class StoryDelegateTest {
 		assertNotNull(StoryDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Storys/0", StoryTest, TsscStory.class)).thenReturn(StoryTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Storys/0", StoryTest, TsscStory.class)).thenReturn(StoryTest);
 		
 		assertTrue(StoryDelegate.createStory(StoryTest,0)!=null);
 		
-		when(restTemplate.getForObject("http://localhost:8080/Storys/"+StoryTest.getId(), TsscStory.class)).thenReturn(StoryTest);
+		when(restTemplate.getForObject("http://localhost:8080/api/Storys/"+StoryTest.getId(), TsscStory.class)).thenReturn(StoryTest);
 		
 		assertTrue(StoryDelegate.getStory(StoryTest.getId())!=null);
 	}
@@ -100,11 +100,11 @@ class StoryDelegateTest {
 		
 		list.add(StoryTest);
 		
-		when(restTemplate.postForObject("http://localhost:8080/Storys/0", StoryTest, TsscStory.class)).thenReturn(StoryTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Storys/0", StoryTest, TsscStory.class)).thenReturn(StoryTest);
 		
 		assertTrue(StoryDelegate.createStory(StoryTest,0)!=null);
 		
-		when(restTemplate.getForObject("http://localhost:8080/Storys", Iterable.class)).thenReturn(list);
+		when(restTemplate.getForObject("http://localhost:8080/api/Storys", Iterable.class)).thenReturn(list);
 		
 		assertTrue(((ArrayList<TsscStory>)StoryDelegate.findAll()).get(0)!=null);
 	}

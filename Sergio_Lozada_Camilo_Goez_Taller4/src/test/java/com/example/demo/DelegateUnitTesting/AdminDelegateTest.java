@@ -46,7 +46,7 @@ class AdminDelegateTest {
 		assertNotNull(AdminDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
 		
 		assertTrue(AdminDelegate.createAdmin(AdminTest)!=null);
 	}
@@ -56,7 +56,7 @@ class AdminDelegateTest {
 		assertNotNull(AdminDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
 		
 		assertTrue(AdminDelegate.createAdmin(AdminTest)!=null);
 		
@@ -70,7 +70,7 @@ class AdminDelegateTest {
 		assertNotNull(AdminDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
 		
 		assertTrue(AdminDelegate.createAdmin(AdminTest)!=null);
 		
@@ -82,11 +82,11 @@ class AdminDelegateTest {
 		assertNotNull(AdminDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
 		
 		assertTrue(AdminDelegate.createAdmin(AdminTest)!=null);
 		
-		when(restTemplate.getForObject("http://localhost:8080/Admins/"+AdminTest.getId(), TsscAdmin.class)).thenReturn(AdminTest);
+		when(restTemplate.getForObject("http://localhost:8080/api/Admins/"+AdminTest.getId(), TsscAdmin.class)).thenReturn(AdminTest);
 		
 		assertTrue(AdminDelegate.getAdmin(AdminTest.getId())!=null);
 	}
@@ -100,11 +100,11 @@ class AdminDelegateTest {
 		
 		list.add(AdminTest);
 		
-		when(restTemplate.postForObject("http://localhost:8080/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Admins", AdminTest, TsscAdmin.class)).thenReturn(AdminTest);
 		
 		assertTrue(AdminDelegate.createAdmin(AdminTest)!=null);
 		
-		when(restTemplate.getForObject("http://localhost:8080/Admins", Iterable.class)).thenReturn(list);
+		when(restTemplate.getForObject("http://localhost:8080/api/Admins", Iterable.class)).thenReturn(list);
 		
 		assertTrue(((ArrayList<TsscAdmin>)AdminDelegate.findAll()).get(0)!=null);
 	}

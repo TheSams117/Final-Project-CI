@@ -46,7 +46,7 @@ class TopicDelegateTest {
 		assertNotNull(TopicDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Topics", TopicTest, TsscTopic.class)).thenReturn(TopicTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Topics", TopicTest, TsscTopic.class)).thenReturn(TopicTest);
 		
 		assertTrue(TopicDelegate.createTopic(TopicTest)!=null);
 	}
@@ -56,7 +56,7 @@ class TopicDelegateTest {
 		assertNotNull(TopicDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Topics", TopicTest, TsscTopic.class)).thenReturn(TopicTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Topics", TopicTest, TsscTopic.class)).thenReturn(TopicTest);
 		
 		assertTrue(TopicDelegate.createTopic(TopicTest)!=null);
 		
@@ -70,7 +70,7 @@ class TopicDelegateTest {
 		assertNotNull(TopicDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Topics", TopicTest, TsscTopic.class)).thenReturn(TopicTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Topics", TopicTest, TsscTopic.class)).thenReturn(TopicTest);
 		
 		assertTrue(TopicDelegate.createTopic(TopicTest)!=null);
 		
@@ -82,11 +82,11 @@ class TopicDelegateTest {
 		assertNotNull(TopicDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Topics", TopicTest, TsscTopic.class)).thenReturn(TopicTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Topics", TopicTest, TsscTopic.class)).thenReturn(TopicTest);
 		
 		assertTrue(TopicDelegate.createTopic(TopicTest)!=null);
 		
-		when(restTemplate.getForObject("http://localhost:8080/Topics/"+TopicTest.getId(), TsscTopic.class)).thenReturn(TopicTest);
+		when(restTemplate.getForObject("http://localhost:8080/api/Topics/"+TopicTest.getId(), TsscTopic.class)).thenReturn(TopicTest);
 		
 		assertTrue(TopicDelegate.getTopic(TopicTest.getId())!=null);
 	}
@@ -100,11 +100,11 @@ class TopicDelegateTest {
 		
 		list.add(TopicTest);
 		
-		when(restTemplate.postForObject("http://localhost:8080/Topics", TopicTest, TsscTopic.class)).thenReturn(TopicTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Topics", TopicTest, TsscTopic.class)).thenReturn(TopicTest);
 		
 		assertTrue(TopicDelegate.createTopic(TopicTest)!=null);
 		
-		when(restTemplate.getForObject("http://localhost:8080/Topics", Iterable.class)).thenReturn(list);
+		when(restTemplate.getForObject("http://localhost:8080/api/Topics", Iterable.class)).thenReturn(list);
 		
 		assertTrue(((ArrayList<TsscTopic>)TopicDelegate.findAll()).get(0)!=null);
 	}

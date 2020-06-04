@@ -46,9 +46,9 @@ class TimecontrolDelegateTest {
 		assertNotNull(TimecontrolDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Timecontrols", TimecontrolTest, TsscTimecontrol.class)).thenReturn(TimecontrolTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Timecontrols/0", TimecontrolTest, TsscTimecontrol.class)).thenReturn(TimecontrolTest);
 		
-		assertTrue(TimecontrolDelegate.createTimecontrol(TimecontrolTest)!=null);
+		assertTrue(TimecontrolDelegate.createTimecontrol(TimecontrolTest,0)!=null);
 	}
 	
 	@Test
@@ -56,9 +56,9 @@ class TimecontrolDelegateTest {
 		assertNotNull(TimecontrolDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Timecontrols", TimecontrolTest, TsscTimecontrol.class)).thenReturn(TimecontrolTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Timecontrols/0", TimecontrolTest, TsscTimecontrol.class)).thenReturn(TimecontrolTest);
 		
-		assertTrue(TimecontrolDelegate.createTimecontrol(TimecontrolTest)!=null);
+		assertTrue(TimecontrolDelegate.createTimecontrol(TimecontrolTest,0)!=null);
 		
 		TimecontrolTest.setName("Time 1");
 		
@@ -70,9 +70,9 @@ class TimecontrolDelegateTest {
 		assertNotNull(TimecontrolDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Timecontrols", TimecontrolTest, TsscTimecontrol.class)).thenReturn(TimecontrolTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Timecontrols/0", TimecontrolTest, TsscTimecontrol.class)).thenReturn(TimecontrolTest);
 		
-		assertTrue(TimecontrolDelegate.createTimecontrol(TimecontrolTest)!=null);
+		assertTrue(TimecontrolDelegate.createTimecontrol(TimecontrolTest,0)!=null);
 		
 		TimecontrolDelegate.deleteTimecontrol(TimecontrolTest.getId());
 	}
@@ -82,11 +82,11 @@ class TimecontrolDelegateTest {
 		assertNotNull(TimecontrolDelegate);
 		setUpOne();
 		
-		when(restTemplate.postForObject("http://localhost:8080/Timecontrols", TimecontrolTest, TsscTimecontrol.class)).thenReturn(TimecontrolTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Timecontrols/0", TimecontrolTest, TsscTimecontrol.class)).thenReturn(TimecontrolTest);
 		
-		assertTrue(TimecontrolDelegate.createTimecontrol(TimecontrolTest)!=null);
+		assertTrue(TimecontrolDelegate.createTimecontrol(TimecontrolTest,0)!=null);
 		
-		when(restTemplate.getForObject("http://localhost:8080/Timecontrols/"+TimecontrolTest.getId(), TsscTimecontrol.class)).thenReturn(TimecontrolTest);
+		when(restTemplate.getForObject("http://localhost:8080/api/Timecontrols/"+TimecontrolTest.getId(), TsscTimecontrol.class)).thenReturn(TimecontrolTest);
 		
 		assertTrue(TimecontrolDelegate.getTimecontrol(TimecontrolTest.getId())!=null);
 	}
@@ -100,11 +100,11 @@ class TimecontrolDelegateTest {
 		
 		list.add(TimecontrolTest);
 		
-		when(restTemplate.postForObject("http://localhost:8080/Timecontrols", TimecontrolTest, TsscTimecontrol.class)).thenReturn(TimecontrolTest);
+		when(restTemplate.postForObject("http://localhost:8080/api/Timecontrols/0", TimecontrolTest, TsscTimecontrol.class)).thenReturn(TimecontrolTest);
 		
-		assertTrue(TimecontrolDelegate.createTimecontrol(TimecontrolTest)!=null);
+		assertTrue(TimecontrolDelegate.createTimecontrol(TimecontrolTest,0)!=null);
 		
-		when(restTemplate.getForObject("http://localhost:8080/Timecontrols", Iterable.class)).thenReturn(list);
+		when(restTemplate.getForObject("http://localhost:8080/api/Timecontrols", Iterable.class)).thenReturn(list);
 		
 		assertTrue(((ArrayList<TsscTimecontrol>)TimecontrolDelegate.findAll()).get(0)!=null);
 	}
