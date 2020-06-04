@@ -18,31 +18,27 @@ public class TimecontrolServiceImp implements TimecontrolService {
 	@Autowired
 	private GameDao gameDao;
 
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public TsscTimecontrol createTimecontrol(TsscTimecontrol timecontrol, long id) {
 		TsscGame game  = gameDao.findById(id);
-		game.addTsscTimecontrol(timecontrol);
+		timecontrol.setTsscGame(game);
+		//game.addTsscTimecontrol(timecontrol);
 		gameDao.update(game);
 		return timecontrolDao.save(timecontrol);
 	}
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public TsscTimecontrol updateTimecontrol(TsscTimecontrol timecontrol) {
 		timecontrol.setTsscGame(timecontrolDao.findById(timecontrol.getId()).getTsscGame());
 		return timecontrolDao.update(timecontrol);
 	}
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void deleteTimecontrol(TsscTimecontrol timecontrol) {
 		timecontrolDao.delete(timecontrol);
 	}
 
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public TsscTimecontrol getTimecontrol(long id) {
 		return timecontrolDao.findById(id);
 	}
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Iterable<TsscTimecontrol> findAll(){
 		return timecontrolDao.findAll();
 	}

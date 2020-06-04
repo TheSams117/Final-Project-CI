@@ -24,7 +24,6 @@ public class GameServiceImp implements GameService {
 	@Autowired
 	private TopicDao TopicDao;
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public boolean createGame(Object game) throws GameServiceException {
 		if (game == null) {
 			throw new GameServiceException("CreateGame: The new game or topic can be null");
@@ -65,7 +64,6 @@ public class GameServiceImp implements GameService {
 		return false;
 	}
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public boolean updateGame(Object game) throws GameServiceException {
 		if (game == null) {
 			throw new GameServiceException("UpdateGame: The new game or topic can be null");
@@ -101,48 +99,51 @@ public class GameServiceImp implements GameService {
 		return false;
 	}
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void deleteGame(TsscGame game) throws GameServiceException {
 		List<TsscStory> stories = game.getTsscStories();
 		List<TsscTimecontrol> timecontrols = game.getTsscTimecontrols();
 		
 		for (int i = 0; i < stories.size(); i++) {
-			stories.get(i).setTsscGame(null);
-			timecontrols.get(i).setTsscGame(null);
-			
+			if(stories.size()!=0) {
+				
+				stories.get(i).setTsscGame(null);
+			}
+	
+		}
+		
+		for (int i = 0; i < timecontrols.size(); i++) {
+
+			if(timecontrols.size()!=0) {
+				
+				timecontrols.get(i).setTsscGame(null);
+			}
 		}
 		GameDao.delete(game);
 	}
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public TsscGame getGame(long id) throws GameServiceException {
 		return GameDao.findById(id);
 	}
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public TopicDao getTopicDao() {
 		return TopicDao;
 	}
 
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void setTopicDao(TopicDao TopicDao) {
 		this.TopicDao = TopicDao;
 	}
 
 	@Override
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Iterable<TsscGame> findAll() {
 		return GameDao.findAll();
 	}
 
 	@Override
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Iterable<TsscTopic>  getTopics() {		
 		return TopicDao.findAll();
 	}
 
 	@Override
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void editTopic(TsscTopic topic) {
 		TopicDao.save(topic);
 		
@@ -150,13 +151,11 @@ public class GameServiceImp implements GameService {
 	}
 	
 	@Override
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Iterable<TsscTopic> queryTopics(LocalDate date){
 		return GameDao.Query2A(date);
 	}
 	
 	@Override
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Iterable<TsscGame> queryGames(LocalDate date){
 		return GameDao.Query2B(date);
 	}

@@ -18,7 +18,6 @@ public class TopicServiceImp implements TopicService  {
 	@Autowired
 	private TopicDao topicDao;
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public TsscTopic createTopic(TsscTopic topic) throws TopicServiceException {
 		if(topic == null) {
 			throw new TopicServiceException("CreateTopic: The new topic can be null");
@@ -31,7 +30,6 @@ public class TopicServiceImp implements TopicService  {
 		return topicDao.save(topic);
 	}
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public TsscTopic updateTopic(TsscTopic topic) throws TopicServiceException {
 		
 		if(topic == null) {
@@ -47,7 +45,6 @@ public class TopicServiceImp implements TopicService  {
 		return topicDao.update(topic);
 	}
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void deleteTopic(TsscTopic topic) throws TopicServiceException {
 		List<TsscGame> list = topic.getTsscGames();
 		for (int i = 0; i < list.size(); i++) {
@@ -59,13 +56,11 @@ public class TopicServiceImp implements TopicService  {
 		topicDao.delete(topic);
 	}
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public TsscTopic getTopic(long id) throws TopicServiceException {
 		return topicDao.findById(id);
 	}
 
 	@Override
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Iterable<TsscTopic> findAll() {
 		
 		return topicDao.findAll();

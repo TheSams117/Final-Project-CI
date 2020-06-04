@@ -3,6 +3,7 @@ package com.example.demo.IntegrationTesting;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -112,6 +113,8 @@ class StrotyServiceTest {
 		void testCreateStory4() throws StoryServiceException {
 			newStory = new TsscStory();
 			newGame = new TsscGame();
+			
+			newGame.setTsscStories(new ArrayList<TsscStory>());
 			
 			newStory.setBusinessValue(new BigDecimal(1));
 			newStory.setInitialSprint(new BigDecimal(1));

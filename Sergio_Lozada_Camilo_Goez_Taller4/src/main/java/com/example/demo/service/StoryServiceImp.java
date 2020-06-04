@@ -19,7 +19,6 @@ public class StoryServiceImp implements StoryService {
 	@Autowired
 	private GameDao GameDao;
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public TsscStory createStoryService(TsscStory story, long id) throws StoryServiceException {
 		if(story == null) {
 			
@@ -41,13 +40,12 @@ public class StoryServiceImp implements StoryService {
 			throw new StoryServiceException("CreateStory: The business value, initial sprint or the priority are equal or less to 0");
 		}
 		
-		game.addTsscStory(story);
+		//game.addTsscStory(story);
 		GameDao.update(game);
 		
 		return StoryDao.save(story);
 	}
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public TsscStory updateStoryService(TsscStory story) throws StoryServiceException {
 		
 		if(story == null) {
@@ -68,20 +66,17 @@ public class StoryServiceImp implements StoryService {
 		return StoryDao.update(story);
 	}
 	
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void deleteStoryService(TsscStory story) throws StoryServiceException {
 		story.setTsscGame(null);
 		StoryDao.delete(story);
 	}
 
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public TsscStory getStoryService(long id) throws StoryServiceException {
 		
 		return StoryDao.findById(id);
 	}
 
 	@Override
-	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Iterable<TsscStory> findAll() {
 		return StoryDao.findAll();
 	}
