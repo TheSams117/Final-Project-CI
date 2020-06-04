@@ -47,7 +47,7 @@ public class Taller4Application {
 		u.createAdmin(admin2);
 		
 		TsscGame n = new TsscGame();
-		n.setScheduledDate(LocalDate.of(2222, 3, 1));
+		n.setScheduledDate(LocalDate.of(2020, 6, 3));
 		n.setScheduledTime(LocalTime.MAX);
 		n.setStartTime(LocalTime.MAX);
 		n.setPauseSeconds((long)3);

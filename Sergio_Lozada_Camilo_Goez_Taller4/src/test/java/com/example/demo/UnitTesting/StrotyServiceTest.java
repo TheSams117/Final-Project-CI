@@ -80,7 +80,11 @@ class StrotyServiceTest {
 		void testCreateStory1() throws StoryServiceException {
 			newStory = new TsscStory();
 			
-			Throwable exceptionOne = assertThrows(StoryServiceException.class, ()->{storyService.createStoryService(newStory,1);});
+			newGame = new TsscGame();
+			
+			when(GameDao.findById(newGame.getId())).thenReturn(newGame);
+
+			Throwable exceptionOne = assertThrows(StoryServiceException.class, ()->{storyService.createStoryService(newStory,newGame.getId());});
 			
 			assertEquals("CreateStory: The new story need have a game", exceptionOne.getMessage());
 			
@@ -95,13 +99,10 @@ class StrotyServiceTest {
 			
 			newStory.setTsscGame(newGame);
 			
-			when(GameDao.findById(newStory.getTsscGame().getId())).thenReturn(null);
-			
 			Throwable exceptionOne = assertThrows(StoryServiceException.class, ()->{storyService.createStoryService(newStory,1);});
 			
 			assertEquals("CreateStory: The game of new Story haven't been created ", exceptionOne.getMessage());
 			
-			verify(GameDao).findById(newStory.getTsscGame().getId());
 			verifyNoInteractions(StoryDao);
 		
 		}
@@ -119,9 +120,9 @@ class StrotyServiceTest {
 		
 			GameDao.save(newGame);
 			
-			when(GameDao.findById(newStory.getTsscGame().getId())).thenReturn(newGame);
+			when(GameDao.findById(newGame.getId())).thenReturn(newGame);
 			
-			Throwable exceptionOne = assertThrows(StoryServiceException.class, ()->{storyService.createStoryService(newStory,1);});
+			Throwable exceptionOne = assertThrows(StoryServiceException.class, ()->{storyService.createStoryService(newStory,0);});
 			
 			assertEquals("CreateStory: The business value, initial sprint or the priority are equal or less to 0", exceptionOne.getMessage());
 			
@@ -143,10 +144,10 @@ class StrotyServiceTest {
 		
 			GameDao.save(newGame);
 			
-			when(GameDao.findById(newStory.getTsscGame().getId())).thenReturn(newGame);
+			when(GameDao.findById(newGame.getId())).thenReturn(newGame);
 			when(StoryDao.save(newStory)).thenReturn(newStory);
 			
-			assertTrue(storyService.createStoryService(newStory,1) != null,"The story haven't been created");
+			assertTrue(storyService.createStoryService(newStory,0) != null,"The story haven't been created");
 
 			verify(StoryDao).save(newStory);
 			

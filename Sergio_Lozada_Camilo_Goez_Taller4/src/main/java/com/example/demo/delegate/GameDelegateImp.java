@@ -1,5 +1,7 @@
 package com.example.demo.delegate;
 
+import java.time.LocalDate;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -47,6 +49,18 @@ public class GameDelegateImp implements GameDelegate{
 	@Override
 	public Iterable<TsscGame> findAll() {
 		return restTemplate.getForObject("http://localhost:8080/api/Games", Iterable.class);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Iterable<TsscTopic> queryTopics(LocalDate date) {
+		return restTemplate.postForObject("http://localhost:8080/api/Games/Topics",date, Iterable.class);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Iterable<TsscGame> queryGames(LocalDate date) {
+		return restTemplate.postForObject("http://localhost:8080/api/Games/Games",date, Iterable.class);
 	}
 	
 }

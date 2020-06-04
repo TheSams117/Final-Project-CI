@@ -1,5 +1,7 @@
 package com.example.demo.web;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,6 +60,18 @@ public class GameRestControllerImp implements GameRestController {
 	@Override
 	public Iterable<TsscGame> findAll() {
 		return GameService.findAll();
+	}
+	
+	@PostMapping("/api/Games/Topics")
+	@Override
+	public Iterable<TsscTopic> queryTopics(@RequestBody LocalDate date) {
+		return GameService.queryTopics(date);
+	}
+	
+	@PostMapping("/api/Games/Games")
+	@Override
+	public Iterable<TsscGame> queryGames(@RequestBody LocalDate date) {
+		return GameService.queryGames(date);
 	}
 
 }

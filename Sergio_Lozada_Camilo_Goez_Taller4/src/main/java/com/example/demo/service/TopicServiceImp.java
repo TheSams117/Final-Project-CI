@@ -33,6 +33,7 @@ public class TopicServiceImp implements TopicService  {
 	
 	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public TsscTopic updateTopic(TsscTopic topic) throws TopicServiceException {
+		
 		if(topic == null) {
 			throw new TopicServiceException("UpdateTopic: The topic to update can be null");
 		}else if(topic.getDefaultGroups() <= 0) {

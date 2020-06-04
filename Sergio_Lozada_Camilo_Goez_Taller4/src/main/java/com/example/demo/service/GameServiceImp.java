@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,8 +104,11 @@ public class GameServiceImp implements GameService {
 	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void deleteGame(TsscGame game) throws GameServiceException {
 		List<TsscStory> stories = game.getTsscStories();
+		List<TsscTimecontrol> timecontrols = game.getTsscTimecontrols();
+		
 		for (int i = 0; i < stories.size(); i++) {
 			stories.get(i).setTsscGame(null);
+			timecontrols.get(i).setTsscGame(null);
 			
 		}
 		GameDao.delete(game);
@@ -143,6 +147,18 @@ public class GameServiceImp implements GameService {
 		TopicDao.save(topic);
 		
 		
+	}
+	
+	@Override
+	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public Iterable<TsscTopic> queryTopics(LocalDate date){
+		return GameDao.Query2A(date);
+	}
+	
+	@Override
+	@Transactional(readOnly=false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public Iterable<TsscGame> queryGames(LocalDate date){
+		return GameDao.Query2B(date);
 	}
 
 	

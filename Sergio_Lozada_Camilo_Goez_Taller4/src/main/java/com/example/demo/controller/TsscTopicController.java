@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,16 +15,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.exception.TopicServiceException;
 import com.example.demo.model.TsscTopic;
+import com.example.demo.delegate.GameDelegate;
 import com.example.demo.delegate.TopicDelegate;
 
 @Controller
 public class TsscTopicController {
 	
 	private TopicDelegate topicDelegate;
+	
+	private GameDelegate gameDelegate;
 
 	@Autowired
-	public TsscTopicController(TopicDelegate topicDelegate) {
+	public TsscTopicController(TopicDelegate topicDelegate,GameDelegate gameDelegate) {
 		this.topicDelegate = topicDelegate;
+		this.gameDelegate = gameDelegate;
 	
 	}
 	
@@ -118,6 +124,20 @@ public class TsscTopicController {
 		TsscTopic tsscTopic = topicDelegate.getTopic(id);
 		topicDelegate.deleteTopic(tsscTopic.getId());
 		return "redirect:/topic/";
+		
+	}
+	
+	
+	@GetMapping("/topic/query/date")
+	public String query(@RequestParam(value = "Date", required = true) String Date, Model model) {
+		if(Date == "") {
+			return "redirect:/topic/";
+		}
+		String[] date = Date.split("-");
+		LocalDate newDate = LocalDate.of(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
+		model.addAttribute("topics", gameDelegate.queryTopics(newDate));
+		
+		return "topic/index";
 		
 	}
 	

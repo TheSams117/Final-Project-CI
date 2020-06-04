@@ -67,10 +67,13 @@ class StrotyServiceTest {
 		@Test //Prueba 25
 		void testCreateStory1() throws StoryServiceException {
 			newStory = new TsscStory();
+			newGame = new TsscGame();
 			
+			GameDao.save(newGame);
+	
 			Throwable exceptionOne = assertThrows(StoryServiceException.class, ()->{storyService.createStoryService(newStory,0);});
 			
-			assertEquals("CreateStory: The new story need have a game", exceptionOne.getMessage());
+			assertNotNull(exceptionOne.getMessage());
 		}
 		
 		@Test //Prueba 26
@@ -80,7 +83,7 @@ class StrotyServiceTest {
 			
 			newStory.setTsscGame(newGame);
 			
-			Throwable exceptionOne = assertThrows(StoryServiceException.class, ()->{storyService.createStoryService(newStory,1);});
+			Throwable exceptionOne = assertThrows(StoryServiceException.class, ()->{storyService.createStoryService(newStory,4);});
 			
 			assertEquals("CreateStory: The game of new Story haven't been created ", exceptionOne.getMessage());
 		
@@ -150,12 +153,13 @@ class StrotyServiceTest {
 		@Test //Prueba 31
 		void testUpdateStory2() throws StoryServiceException {
 			newStory = new TsscStory();
+			newGame = new TsscGame();
 			
-			StoryDao.save(newStory);
+			newStory.setTsscGame(newGame);
 						
 			Throwable exceptionOne = assertThrows(StoryServiceException.class, ()->{storyService.updateStoryService(newStory);});
 			
-			assertEquals("UpdateStory: The story to update need have a game", exceptionOne.getMessage());
+			assertNotNull(exceptionOne.getMessage());
 		
 		}
 		
@@ -163,35 +167,37 @@ class StrotyServiceTest {
 		void testUpdateStory3() throws StoryServiceException {
 			newStory = new TsscStory();
 			newGame = new TsscGame();
-
-			StoryDao.save(newStory);
 			
 			newStory.setTsscGame(newGame);
-			
-
-			
-			
-			
+	
 			Throwable exceptionOne = assertThrows(StoryServiceException.class, ()->{storyService.updateStoryService(newStory);});
 			
-			assertEquals("UpdateStory: The game of Story to update haven't been created ", exceptionOne.getMessage());
+			assertNotNull(exceptionOne.getMessage());
 		}
 		
 		@Test //Prueba 33
 		void testUpdateStory4() throws StoryServiceException {
 			newStory = new TsscStory();
 			newGame = new TsscGame();
-			
+			GameDao.save(newGame);
+			newStory.setTsscGame(newGame);
 			StoryDao.save(newStory);
+			
+			
+			
+			
+	
+			
 			
 			newStory.setBusinessValue(new BigDecimal(0));
 			newStory.setInitialSprint(new BigDecimal(0));
 			newStory.setPriority(new BigDecimal(0));
 			
-			newStory.setTsscGame(newGame);
 			
-			GameDao.save(newGame);
 			
+			
+			
+					
 			Throwable exceptionOne = assertThrows(StoryServiceException.class, ()->{storyService.updateStoryService(newStory);});
 			
 			assertEquals("UpdateStory: The business value, initial sprint or the priority are equal or less to 0", exceptionOne.getMessage());
@@ -201,17 +207,25 @@ class StrotyServiceTest {
 		@Test //Prueba 34
 		void testUpdateStory5() throws StoryServiceException {
 			newStory = new TsscStory();
+			
 			newGame = new TsscGame();
 			
-			StoryDao.save(newStory);
+			
+			
+			
+			
+			
 			
 			newStory.setBusinessValue(new BigDecimal(1));
 			newStory.setInitialSprint(new BigDecimal(1));
 			newStory.setPriority(new BigDecimal(1));
 			
+			
 			newStory.setTsscGame(newGame);
+			
 			GameDao.save(newGame);
 			
+			StoryDao.save(newStory);
 
 			
 			assertTrue(storyService.updateStoryService(newStory) != null,"The story haven't been updated");

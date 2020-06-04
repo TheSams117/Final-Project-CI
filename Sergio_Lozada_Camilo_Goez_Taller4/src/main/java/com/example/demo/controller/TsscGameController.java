@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,6 +209,19 @@ public class TsscGameController {
 		TsscGame tsscGame = gameDelegate.getGame(id);
 		gameDelegate.deleteGame(tsscGame.getId());
 		return "redirect:/game/";
+		
+	}
+	
+	@GetMapping("/game/query/date")
+	public String query(@RequestParam(value = "Date", required = true) String Date, Model model) {
+		if(Date == "") {
+			return "redirect:/game/";
+		}
+		String[] date = Date.split("-");
+		LocalDate newDate = LocalDate.of(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
+		model.addAttribute("games", gameDelegate.queryGames(newDate));
+		
+		return "game/index";
 		
 	}
 }

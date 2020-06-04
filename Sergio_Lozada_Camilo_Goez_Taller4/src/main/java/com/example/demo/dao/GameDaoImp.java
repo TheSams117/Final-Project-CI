@@ -103,7 +103,7 @@ public class GameDaoImp implements GameDao {
 
 	@Override
 	public List<TsscTopic> Query2A(LocalDate date) {
-		String q = "Select a.tsscTopic from TsscGame a where :date = a.scheduledDate ORDER BY a.scheduledTime ASC";
+		String q = "SELECT a.tsscTopic FROM TsscGame a WHERE :date = a.scheduledDate ORDER BY a.scheduledTime ASC";
 		
 		TypedQuery<TsscTopic> query = entityManager.createQuery(q, TsscTopic.class).setParameter("date", date);
 
@@ -113,13 +113,15 @@ public class GameDaoImp implements GameDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<TsscGame> Query2B(LocalDate date) {
-		String query = "Select a from TsscGame a Where "+ "(a.scheduledDate =:date AND (("
-				+ "(SELECT Count(b) FROM TsscTimecontrol b WHERE b.tsscGame.id = a.id) = 0) OR "+
-		"(SELECT Count(c) FROM TsscStory c WHERE c.tsscGame.id = a.id ) < 10))";
+
+		String q = "SELECT a FROM TsscGame a "+ 
+				   "WHERE :date = a.scheduledDate "+
+				   "AND (size(a.tsscStories)<10 "+
+				   "OR size(a.tsscTimecontrols)>0) ";
 		
-		Query q = entityManager.createQuery(query, TsscGame.class).setParameter("date", date);
+		TypedQuery<TsscGame> query = entityManager.createQuery(q, TsscGame.class).setParameter("date", date);
 		
-		return q.getResultList();
+		return query.getResultList();
 	}
 
 

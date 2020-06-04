@@ -27,13 +27,16 @@ public class StoryServiceImp implements StoryService {
 		}
 		
 		TsscGame game = GameDao.findById(id);
+		
+		if(GameDao.findById(id) == null) {
+			throw new StoryServiceException("CreateStory: The game of new Story haven't been created ");
+		}
+		
 		story.setTsscGame(game);
 		
 		
 		if(story.getTsscGame() == null) {
 			throw new StoryServiceException("CreateStory: The new story need have a game");
-		}else if(GameDao.findById(story.getTsscGame().getId()) == null) {
-			throw new StoryServiceException("CreateStory: The game of new Story haven't been created ");
 		}else if(story.getInitialSprint().intValue() <= 0 || story.getBusinessValue().intValue() <= 0 || story.getPriority().intValue() <= 0) {
 			throw new StoryServiceException("CreateStory: The business value, initial sprint or the priority are equal or less to 0");
 		}
@@ -49,14 +52,15 @@ public class StoryServiceImp implements StoryService {
 		
 		if(story == null) {
 			throw new StoryServiceException("UpdateStory: The story to update can be null");
-		}
-		story.setTsscGame(StoryDao.findById(story.getId()).getTsscGame());
-		if(StoryDao.findById(story.getId()) == null) {
+		}else if(StoryDao.findById(story.getId()) == null) {
 			throw new StoryServiceException("UpdateStory: The story to update doesn't exist");
+		}
+		
+		story.setTsscGame(StoryDao.findById(story.getId()).getTsscGame());
+		if(GameDao.findById(story.getTsscGame().getId()) == null) {
+			throw new StoryServiceException("UpdateStory: The game of Story to update haven't been created ");
 		}else if(story.getTsscGame() == null) {
 			throw new StoryServiceException("UpdateStory: The story to update need have a game");
-		}else if(GameDao.findById(story.getTsscGame().getId()) == null) {
-			throw new StoryServiceException("UpdateStory: The game of Story to update haven't been created ");
 		}else if(story.getInitialSprint().intValue() <= 0 || story.getBusinessValue().intValue() <= 0 || story.getPriority().intValue() <= 0) {
 			throw new StoryServiceException("UpdateStory: The business value, initial sprint or the priority are equal or less to 0");
 		}
